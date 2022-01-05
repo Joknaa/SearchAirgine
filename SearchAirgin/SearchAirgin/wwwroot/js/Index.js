@@ -8,7 +8,7 @@ $(document).ready(function(){
                 
 
 function GetFlights_EDDF(){
-    $.getJSON("/Flights/GetFlights_EDDF" function(flights){
+    $.getJSON("/Flight/GetFlights_EDDF",function(flights){
         $("#tblFlights tbody tr").remove();
         $.map(flights, function(flight){
             $("#tblFlights tbody").append("<tr>"
@@ -16,6 +16,7 @@ function GetFlights_EDDF(){
                 + "<td>" + flight.estDepartureAirport + "</td>"
                 + "<td>" + flight.estArrivalAirport + "</td>"
                 + "</tr>"
-        }
-    });
+            )
+        });
+    })
 }

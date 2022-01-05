@@ -11,12 +11,12 @@
 
     <hr/>
 
-    <!--form onclick="GetByDepartureAirportID()">
-    <h3>Search</h3>
-    <label>DepartureAirport</label>
-    <input id="txtDepartureAirport" type="text" name="departureAirport"/>
-    <input type="submit" value="submit"/>
-    </form-->
+    <form method="get" action="" onclick="GetByDepartureAirportID()">
+        <h3>Search</h3>
+        <label>DepartureAirport</label>
+        <input id="txtDepartureAirport" type="text" name="departureAirport"/>
+        <input type="submit" value="submit"/>
+    </form>
     <br/>
     <button onclick="GetFlights_EDDF()">GetFlights_EDDF</button>
 
@@ -36,3 +36,40 @@
 </div>
 
 <script src="js/Index.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+});
+                
+function GetByDepartureAirportID(){
+    $.getJSON(
+        "/flight/GetByDepartureAirportID?departureAirportID=" + $.getElementById(txtDepartureAirport).innerHTML.valueOf(),
+        function(flights){
+            console.log(flights)
+            $("#tblFlights tbody tr").remove();
+            $.map(flights, function(flight){
+                $("#tblFlights tbody").append("<tr>"
+                    + "<td>" + flight.icao24 + "</td>"
+                    + "<td>" + flight.estDepartureAirport + "</td>"
+                    + "<td>" + flight.estArrivalAirport + "</td>"
+                    + "</tr>"
+                )
+        });
+    })
+}
+    
+
+function GetFlights_EDDF(){
+    $.getJSON("/flight/GetFlights_EDDF",function(flights){
+        console.log(flights)
+        $("#tblFlights tbody tr").remove();
+        $.map(flights, function(flight){
+            $("#tblFlights tbody").append("<tr>"
+                + "<td>" + flight.icao24 + "</td>"
+                + "<td>" + flight.estDepartureAirport + "</td>"
+                + "<td>" + flight.estArrivalAirport + "</td>"
+                + "</tr>"
+            )
+        });
+    })
+}
+</script>
