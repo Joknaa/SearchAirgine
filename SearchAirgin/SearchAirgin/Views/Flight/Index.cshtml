@@ -1,0 +1,38 @@
+﻿@{
+    ViewData["Title"] = "Flights";
+    Layout = "_Layout";
+}
+
+<script src="lib/jquery/dist/jquery.min.js"></script>
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+
+    <hr/>
+
+    <!--form onclick="GetByDepartureAirportID()">
+    <h3>Search</h3>
+    <label>DepartureAirport</label>
+    <input id="txtDepartureAirport" type="text" name="departureAirport"/>
+    <input type="submit" value="submit"/>
+    </form-->
+    <br/>
+    <button onclick="GetFlights_EDDF()">GetFlights_EDDF</button>
+
+    <h3>Results</h3>
+    <table id="tblFlights" class="table">
+        <thead>
+        <tr>
+            <th>Airplane ICAO24</th>
+            <th>Departure Airport</th>
+            <th>Arrival Airport</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+</div>
+
+<script src="js/Index.js"></script>
