@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 namespace SearchAirgin.Models.Responses; 
 
 [JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-public class Root {
+public class Flight {
     public string icao24 { get; set; } = "";
     public int firstSeen { get; set; }
     public string estDepartureAirport { get; set; } = "";

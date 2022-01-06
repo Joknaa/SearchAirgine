@@ -11,14 +11,23 @@
 
     <hr/>
 
-    <form method="get" action="" onclick="GetByDepartureAirportID()">
+    <form method="get" action="" onsubmit="GetFlightSearch(); return false">
         <h3>Search</h3>
-        <label>DepartureAirport</label>
+        <label>Departure Airport</label>
         <input id="txtDepartureAirport" type="text" name="departureAirport"/>
+        <br>
+        <label>Arrival Airport</label>
+        <input id="txtArrivalAirport" type="text" name="arrivalAirport"/>
+        <br>
+        <label>Time</label>
+        <input id="departureTime" type="number" name="departureTime"/>
+        <br>
+        <br>
         <input type="submit" value="submit"/>
     </form>
     <br/>
     <button onclick="GetFlights_EDDF()">GetFlights_EDDF</button>
+    <br/>
 
     <h3>Results</h3>
     <table id="tblFlights" class="table">
@@ -30,7 +39,6 @@
         </tr>
         </thead>
         <tbody>
-
         </tbody>
     </table>
 </div>
@@ -40,9 +48,15 @@
 $(document).ready(function(){
 });
                 
-function GetByDepartureAirportID(){
+function GetFlightSearch(){
+    const myForm = document.forms[0];
+    const departure = myForm.elements["departureAirport"].value;
+    const destination = myForm.elements["arrivalAirport"].value;
+    const departureTime = myForm.elements["departureTime"].value;
+    console.log("dep : " + departure + "");
+    
     $.getJSON(
-        "/flight/GetByDepartureAirportID?departureAirportID=" + $.getElementById(txtDepartureAirport).innerHTML.valueOf(),
+        "/flight/GetFlights?departure=" + departure + "&destination=" + destination + "&departureTime=" + departureTime,
         function(flights){
             console.log(flights)
             $("#tblFlights tbody tr").remove();
