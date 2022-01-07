@@ -48,12 +48,34 @@ public class FlightController : Controller {
         const long maxRequestInterval = 600000; // 6 days and 22h in Unix.
         long arrivalTime = departureTime + maxRequestInterval;
 
-        var departingFlights = await GetFlights_FromDeparture(departure, departureTime, arrivalTime);
-        Console.WriteLine("Got the GetFlights_FromDeparture");
-        var arrivingFlights = await GetFlights_ToDestination(destination, departureTime, arrivalTime);
-        Console.WriteLine("Got the GetFlights_ToDestination");
-        var searchResult = FilterFlights(departingFlights, arrivingFlights);
+        //var departingFlights = await GetFlights_FromDeparture(departure, departureTime, arrivalTime);
+        //Console.WriteLine("Got the GetFlights_FromDeparture");
+        //var arrivingFlights = await GetFlights_ToDestination(destination, departureTime, arrivalTime);
+        //Console.WriteLine("Got the GetFlights_ToDestination");
+        //var searchResult = FilterFlights(departingFlights, arrivingFlights);
+        
+        
+        List<Flight>? Flights_Dep;
+        List<Flight>? Flights_Des;
+        string request_1_URI =
+            $"https://opensky-network.org/api/flights/departure?airport={departure}&begin={departureTime}&end={arrivalTime}";
+        string request_2_URI =
+            $"https://opensky-network.org/api/flights/arrival?airport={destination}&begin={departureTime}&end={arrivalTime}";
 
+        using (var httpClient = new HttpClient(_clientHandler)) {
+            using (var response = await httpClient.GetAsync(request_1_URI)) {
+                var apiResponse = await response.Content.ReadAsStringAsync();
+                Flights_Dep = JsonConvert.DeserializeObject<List<Flight>>(apiResponse);
+            }
+            using (var response = await httpClient.GetAsync(request_2_URI)) {
+                var apiResponse = await response.Content.ReadAsStringAsync();
+                Flights_Des = JsonConvert.DeserializeObject<List<Flight>>(apiResponse);
+            }
+        }
+        
+        
+        var searchResult = FilterFlights(Flights_Dep, Flights_Des, departure, destination);
+        
         return searchResult;
     }
     
@@ -88,11 +110,11 @@ public class FlightController : Controller {
         return Flights;
     }
 
-    private static List<Flight> FilterFlights(List<Flight> departingFlights, List<Flight> arrivingFlights) {
+    private static List<Flight> FilterFlights(List<Flight> departingFlights, List<Flight> arrivingFlights, string departure, string destination) {
         List<Flight> Flights = new List<Flight>();
         
-        string destination = arrivingFlights[0].estArrivalAirport;
-        string departure = departingFlights[0].estDepartureAirport;
+        //string destination = arrivingFlights[0].estArrivalAirport;
+        //string departure = departingFlights[0].estDepartureAirport;
 
         departingFlights.ForEach(flight => {
             if (flight.estArrivalAirport.Equals(destination)) {
