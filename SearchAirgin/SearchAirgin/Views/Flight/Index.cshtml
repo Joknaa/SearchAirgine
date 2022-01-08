@@ -4,6 +4,7 @@
 }
 
 <script src="lib/jquery/dist/jquery.min.js"></script>
+<script src="js/Moment.js"></script>
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
@@ -36,6 +37,8 @@
             <th>Airplane ICAO24</th>
             <th>Departure Airport</th>
             <th>Arrival Airport</th>
+            <th>Departure Time</th>
+            <th>Arrival Time</th>
         </tr>
         </thead>
         <tbody>
@@ -45,6 +48,7 @@
 
 <script src="js/Index.js"></script>
 <script type="text/javascript">
+
 $(document).ready(function(){
 });
                 
@@ -61,16 +65,29 @@ function GetFlightSearch(){
             console.log(flights)
             $("#tblFlights tbody tr").remove();
             $.map(flights, function(flight){
+                
+                let departureTime = EpochToDate(flight.firstSeen);
+                let arrivalTime = EpochToDate(flight.lastSeen);                
+                
                 $("#tblFlights tbody").append("<tr>"
                     + "<td>" + flight.icao24 + "</td>"
                     + "<td>" + flight.estDepartureAirport + "</td>"
                     + "<td>" + flight.estArrivalAirport + "</td>"
+                    + "<td>" + departureTime + "</td>"
+                    + "<td>" + arrivalTime + "</td>"
                     + "</tr>"
                 )
         });
     })
 }
     
+function EpochToDate(epochTime) {
+    let date = new Date(epochTime*1000);
+    let dateString = moment(date).format('YYYY-MM-DD HH:MM');
+    date.toLocaleString('en-US');
+    console.log("time: " + dateString);
+    return dateString;
+}
 
 function GetFlights_EDDF(){
     $.getJSON("/flight/GetFlights_EDDF",function(flights){
