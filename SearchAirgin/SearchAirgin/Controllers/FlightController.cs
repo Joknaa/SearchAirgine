@@ -69,7 +69,7 @@ public class FlightController : Controller {
         var searchResult = FilterFlights(Flights_Dep, Flights_Des, departure, destination);
 
         if (searchResult.Count == 0) {
-            Console.Write("nothing");
+            
         }
 
         return searchResult;
