@@ -54,6 +54,7 @@ public class FlightController : Controller {
             using (var response = await httpClient.GetAsync(
                        $"https://opensky-network.org/api/flights/departure?airport={departure}&begin={departureTime}&end={arrivalTime}"
                    )) {
+                Console.WriteLine($"https://opensky-network.org/api/flights/departure?airport={departure}&begin={departureTime}&end={arrivalTime}");
                 var apiResponse = await response.Content.ReadAsStringAsync();
                 Flights_Dep = JsonConvert.DeserializeObject<List<Flight>>(apiResponse);
             }
@@ -61,6 +62,7 @@ public class FlightController : Controller {
             using (var response = await httpClient.GetAsync(
                        $"https://opensky-network.org/api/flights/arrival?airport={destination}&begin={departureTime}&end={arrivalTime}"
                    )) {
+                Console.WriteLine($"https://opensky-network.org/api/flights/arrival?airport={destination}&begin={departureTime}&end={arrivalTime}");
                 var apiResponse = await response.Content.ReadAsStringAsync();
                 Flights_Des = JsonConvert.DeserializeObject<List<Flight>>(apiResponse);
             }
@@ -69,7 +71,7 @@ public class FlightController : Controller {
         var searchResult = FilterFlights(Flights_Dep, Flights_Des, departure, destination);
 
         if (searchResult.Count == 0) {
-            
+            Console.WriteLine("empty");
         }
 
         return searchResult;

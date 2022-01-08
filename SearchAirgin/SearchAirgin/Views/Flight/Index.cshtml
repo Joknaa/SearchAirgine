@@ -59,7 +59,7 @@ function GetFlightSearch() {
     let departureTime = myForm.elements["departureTime"].value;
     console.log("departure time: " + departureTime);
     
-    departureTime = DateToEpoch(departureTime);
+    departureTime = DateToEpoch(departureTime) ;
     $.getJSON(
         "/flight/GetFlights?departure=" + departure + "&destination=" + destination + "&departureTime=" + departureTime,
         function (flights) {
@@ -83,17 +83,11 @@ function GetFlightSearch() {
 
 function EpochToDate(epochTime) {
     let date = new Date(epochTime * 1000);
-    let dateTime = moment(date).format('YYYY-MM-DD HH:MM');
-    console.log("time: " + dateTime);
-    return dateTime;
+    return moment(date).format('DD-MM-YYYY HH:MM');
 }
 function DateToEpoch(dateTime) {
-    let dateElements = dateTime.split("-"); 
-    console.log(dateElements);
-    let dateEpoch = Date.UTC(dateElements[0], dateElements[1], dateElements[2]);
-    console.log("yyyy, mm, dd: " +  dateElements[0] + " , " + dateElements[1] + " , " + dateElements[2]);
+    let dateEpoch = Date.parse(dateTime) / 1000;
     console.log("dateEpoch: " + dateEpoch);
-    dateEpoch = dateEpoch / 1000;
     return dateEpoch;
 }
 
