@@ -11,4 +11,27 @@
         <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     </ItemGroup>
 
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="wwwroot\js\Bootstrap-DataTables.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\js\bs-init.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\js\grayscale.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\css\Bootstrap-DataTables.css" />
+      <_ContentIncludedByDefault Remove="wwwroot\img\IMG_7461.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\img\OKNAA AIRLINES Logo - Original with Transparent Background(3).svg" />
+      <_ContentIncludedByDefault Remove="wwwroot\assets\img\IMG_7461.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\assets\img\OKNAA AIRLINES Logo - Original with Transparent Background(3).svg" />
+      <_ContentIncludedByDefault Remove="wwwroot\assets\js\Bootstrap-DataTables.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\assets\js\bs-init.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\assets\js\grayscale.js" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Views\Home" />
+      <Folder Include="wwwroot\&amp;quot%3bassets" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="Views\Shared\_Layout.Backupcshtml.txt.css" />
+    </ItemGroup>
+
 </Project>
