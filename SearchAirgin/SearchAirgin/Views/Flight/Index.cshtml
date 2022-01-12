@@ -6,7 +6,6 @@
 <script src="lib/jquery/dist/jquery.min.js"></script>
 <script src="lib/Moment.js"></script>
 
-
 <div class="col-lg-8 col-xxl-8 offset-xxl-1 mx-auto" style="background: url(&quot;assets/img/IMG_7461.jpg&quot;) left / auto repeat-y, var(--bs-gray-600);padding: 0px;padding-right: 0;padding-left: 0;width: 984px;height: 100%;transform: perspective(0px);border-top-left-radius: 100px;border-top-right-radius: 100px;box-shadow: 0px 0px 20px;padding-bottom: 40px;">
     <h2></h2>
     <form method="get" action="" onsubmit="GetFlightSearch(); return false">
@@ -79,9 +78,7 @@
     </div>
 </div>
 
-
 <script type="text/javascript">
-
 $(document).ready(function () {
 });
 
@@ -93,8 +90,7 @@ function GetFlightSearch() {
     console.log("departure time: " + departureTime);
     
     departureTime = DateToEpoch(departureTime) ;
-    $.getJSON(
-        "/flight/GetFlights?departure=" + departure + "&destination=" + destination + "&departureTime=" + departureTime,
+    $.getJSON("/flight/GetFlights?departure=" + departure + "&destination=" + destination + "&departureTime=" + departureTime,
         function (flights) {
             var count = 0;
             var flightsCount = flights.length;
@@ -127,20 +123,5 @@ function DateToEpoch(dateTime) {
     let dateEpoch = Date.parse(dateTime) / 1000;
     console.log("dateEpoch: " + dateEpoch);
     return dateEpoch;
-}
-
-function GetFlights_EDDF() {
-    $.getJSON("/flight/GetFlights_EDDF", function (flights) {
-        console.log(flights)
-        $("#tblFlights tbody tr").remove();
-        $.map(flights, function (flight) {
-            $("#tblFlights tbody").append("<tr>"
-                + "<td>" + flight.icao24 + "</td>"
-                + "<td>" + flight.estDepartureAirport + "</td>"
-                + "<td>" + flight.estArrivalAirport + "</td>"
-                + "</tr>"
-            )
-        });
-    })
 }
 </script>

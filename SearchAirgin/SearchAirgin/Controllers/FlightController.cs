@@ -12,29 +12,14 @@ public class FlightController : Controller {
     private readonly HttpClientHandler _clientHandler = new();
 
     public FlightController() {
-        _clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => {
+        _clientHandler.ServerCertificateCustomValidationCallback = (sender, cert,
+            chain, sslPolicyErrors) => {
             return true;
         };
     }
 
     public IActionResult Index() {
         return View();
-    }
-
-    [HttpGet]
-    public async Task<List<Flight>> GetFlights_EDDF() {
-        List<Flight> Flights = new List<Flight>();
-        const string requestURI =
-            "https://opensky-network.org/api/flights/departure?airport=EDDF&begin=1517227200&end=1517230800";
-
-        using (var httpClient = new HttpClient(_clientHandler)) {
-            using (var response = await httpClient.GetAsync(requestURI)) {
-                var apiResponse = await response.Content.ReadAsStringAsync();
-                Flights = JsonConvert.DeserializeObject<List<Flight>>(apiResponse);
-            }
-        }
-
-        return Flights;
     }
 
     [HttpGet]
@@ -52,17 +37,17 @@ public class FlightController : Controller {
 
         using (var httpClient = new HttpClient(_clientHandler)) {
             using (var response = await httpClient.GetAsync(
-                       $"https://opensky-network.org/api/flights/departure?airport={departure}&begin={departureTime}&end={arrivalTime}"
+                       $"https://opensky-network.org/api/flights/departure?airport={departure}" +
+                       $"&begin={departureTime}&end={arrivalTime}"
                    )) {
-                Console.WriteLine($"https://opensky-network.org/api/flights/departure?airport={departure}&begin={departureTime}&end={arrivalTime}");
                 var apiResponse = await response.Content.ReadAsStringAsync();
                 Flights_Dep = JsonConvert.DeserializeObject<List<Flight>>(apiResponse);
             }
 
             using (var response = await httpClient.GetAsync(
-                       $"https://opensky-network.org/api/flights/arrival?airport={destination}&begin={departureTime}&end={arrivalTime}"
+                       $"https://opensky-network.org/api/flights/arrival?airport={destination}" +
+                       $"&begin={departureTime}&end={arrivalTime}"
                    )) {
-                Console.WriteLine($"https://opensky-network.org/api/flights/arrival?airport={destination}&begin={departureTime}&end={arrivalTime}");
                 var apiResponse = await response.Content.ReadAsStringAsync();
                 Flights_Des = JsonConvert.DeserializeObject<List<Flight>>(apiResponse);
             }
@@ -78,15 +63,10 @@ public class FlightController : Controller {
     }
 
     private static List<Flight> FilterFlights(
-        List<Flight>? departingFlights,
-        List<Flight>? arrivingFlights,
-        string departure,
-        string destination
+        List<Flight>? departingFlights, List<Flight>? arrivingFlights,
+        string departure, string destination
     ) {
         List<Flight> Flights = new List<Flight>();
-
-        //string destination = arrivingFlights[0].estArrivalAirport;
-        //string departure = departingFlights[0].estDepartureAirport;
 
         departingFlights?.ForEach(flight => {
             if (flight.estArrivalAirport.Equals(destination)) {
